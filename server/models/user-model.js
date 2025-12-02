@@ -48,6 +48,10 @@ userSchema.pre('save',async function(next){
     }
 });
 
+userSchema.methods.comparePassword = async function (passsword){
+    return bcrypt.compare(password , this.password);
+}
+
 userSchema.methods.generateToken = async function(){
     try{
         return jwt.sign({_id : this._id ,email : this.email , isAdmin : this.isAdmin} , process.env.JWT_SECRET , {expiresIn :"30d"});
